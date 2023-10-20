@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Image/ipAdress.png</file>
+        <file>Image/loginChart.png</file>
+        <file>Image/password.png</file>
+        <file>Image/userAccount.png</file>
+        <file>Image/CSDClogo.png</file>
+        <file>Image/logo.png</file>
+        <file>Image/homePage.png</file>
+        <file>Image/upgrade.png</file>
+        <file>Image/phone.png</file>
+        <file>Image/user.png</file>
+        <file>Image/control.png</file>
+        <file>Image/data.png</file>
+        <file>Image/fund.png</file>
+        <file>Image/set.png</file>
+        <file>Image/dashboard.qss</file>
+        <file>Image/ai.png</file>
+        <file>Image/fs.png</file>
+        <file>Image/check.png</file>
+        <file>Image/folder.png</file>
+        <file>Image/system.png</file>
+        <file>Image/usercontrol.png</file>
+        <file>Image/stats.png</file>
+        <file>Data/balance.xlsx</file>
+        <file>Data/RTGS.xlsx</file>
+        <file>Data/highquery.xlsx</file>
+        <file>Data/user.xlsx</file>
+        <file>Image/login_close.png</file>
+        <file>Image/login_min.png</file>
+    </qresource>
+</RCC>
