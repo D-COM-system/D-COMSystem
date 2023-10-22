@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QCoreApplication>
+#include <QDateTime>
 
 
 QString nowFilePath = "";
@@ -68,6 +69,9 @@ void  ImportOfDeclarations::chooseFile()
 
 void ImportOfDeclarations::importFile()
 {
+    if(ui->lineEdit_6->text().isEmpty()) {
+        return ;
+    }
     int successInsert = 0;
     QString dbName = "database.db";
     QString dbPath = QCoreApplication::applicationDirPath() + "./" + dbName;  // Use a relative path
@@ -97,12 +101,14 @@ void ImportOfDeclarations::importFile()
         QString MaxAccount = sheet->read(row, 6).toString();
         QString ControlClass = sheet->read(row, 7).toString();
         QString dataEntryClerk = sheet->read(row, 8).toString();
-        QString inputTime = sheet->read(row, 9).toString();
+        // 获取当前时间
+        QDateTime currentTime = QDateTime::currentDateTime();
+        // 将当前时间转换为字符串
+        QString inputTime = currentTime.toString("yyyy-MM-dd hh:mm:ss");
 
         // 检查所有元素是否都为空
         if (guid.isEmpty() && state.isEmpty() && institutionCode.isEmpty() && institutionName.isEmpty() &&
-            TotalAssets.isEmpty() && MaxAccount.isEmpty() && ControlClass.isEmpty() && dataEntryClerk.isEmpty() &&
-            inputTime.isEmpty()) {
+            TotalAssets.isEmpty() && MaxAccount.isEmpty() && ControlClass.isEmpty() && dataEntryClerk.isEmpty()) {
             continue;  // 跳过当前行，不执行插入操作
         }
 
@@ -128,6 +134,7 @@ void ImportOfDeclarations::importFile()
     // Close the database connection
     db.close();
 //    qDebug() << successInsert;
+    ui->lineEdit_6->clear();
     ui->lineEdit_9->setText("本次共导入" + QString::number(successInsert) + "条数据");
     ui->widget_5->setVisible(true);
 }

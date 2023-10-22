@@ -938,7 +938,7 @@ font-size: 16px;
        <string notr="true">margin-left: 10px;
 color: black;
 padding: 2px;
-font-size: 22px;</string>
+font-size: 16px;</string>
       </property>
       <property name="text">
        <string>最高额度常规申报导入</string>

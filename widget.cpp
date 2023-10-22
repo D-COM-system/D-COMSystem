@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QCoreApplication>
 #include <QDebug>
+#include <QDesktopWidget>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -18,8 +19,8 @@ Widget::Widget(QWidget *parent)
 
     // 连接登录按钮的点击信号和槽
     connect(ui->login, &QPushButton::clicked, this, &Widget::login);
-    connect(ui->pushButton, &QPushButton::clicked, this, &Widget::minimize);
-    connect(ui->pushButton_2, &QPushButton::clicked, this, &Widget::closeWindow);
+    connect(ui->pushButton_3, &QPushButton::clicked, this, &Widget::minimize);
+    connect(ui->pushButton_4, &QPushButton::clicked, this, &Widget::closeWindow);
 }
 
 Widget::~Widget()

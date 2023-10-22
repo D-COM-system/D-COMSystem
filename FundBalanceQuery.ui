@@ -112,7 +112,7 @@ font-size: 16px;
       <string>  清算交收</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="res.qrc">
        <normaloff>:/Image/set.png</normaloff>:/Image/set.png</iconset>
      </property>
      <property name="iconSize">
@@ -145,7 +145,7 @@ font-size: 16px;
       <string>  登记存管</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="res.qrc">
        <normaloff>:/Image/control.png</normaloff>:/Image/control.png</iconset>
      </property>
      <property name="iconSize">
@@ -202,7 +202,7 @@ font-size: 16px;
       <string>  服务数据</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="res.qrc">
        <normaloff>:/Image/data.png</normaloff>:/Image/data.png</iconset>
      </property>
      <property name="iconSize">
@@ -257,7 +257,7 @@ font-size: 16px;
       <string>  资金划拨</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="res.qrc">
        <normaloff>:/Image/fund.png</normaloff>:/Image/fund.png</iconset>
      </property>
      <property name="iconSize">
@@ -317,7 +317,7 @@ font-size: 16px;
       <string>  基金业务</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="res.qrc">
        <normaloff>:/Image/fs.png</normaloff>:/Image/fs.png</iconset>
      </property>
      <property name="iconSize">
@@ -392,7 +392,7 @@ font-size: 16px;
       <string>  港股通</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="res.qrc">
        <normaloff>:/Image/ai.png</normaloff>:/Image/ai.png</iconset>
      </property>
      <property name="iconSize">
@@ -467,7 +467,7 @@ font-size: 16px;
       <string>  查看公告</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="res.qrc">
        <normaloff>:/Image/check.png</normaloff>:/Image/check.png</iconset>
      </property>
      <property name="iconSize">
@@ -542,7 +542,7 @@ font-size: 16px;
       <string>  文件传输</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="res.qrc">
        <normaloff>:/Image/folder.png</normaloff>:/Image/folder.png</iconset>
      </property>
      <property name="iconSize">
@@ -617,7 +617,7 @@ font-size: 16px;
       <string>  用户管理</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="res.qrc">
        <normaloff>:/Image/usercontrol.png</normaloff>:/Image/usercontrol.png</iconset>
      </property>
      <property name="iconSize">
@@ -692,7 +692,7 @@ font-size: 16px;
       <string>  系统配置</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="res.qrc">
        <normaloff>:/Image/system.png</normaloff>:/Image/system.png</iconset>
      </property>
      <property name="iconSize">
@@ -812,6 +812,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="styleSheet">
        <string notr="true">border: 1px solid rgb(245,245,245);
 background: transparent;</string>
+      </property>
+      <property name="editable">
+       <bool>false</bool>
       </property>
       <property name="frame">
        <bool>true</bool>
@@ -1566,7 +1569,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(0, 0, 255);</string>
+       <string notr="true">background-color: rgb(40, 155, 213);</string>
       </property>
       <property name="text">
        <string/>
@@ -1585,26 +1588,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(0, 0, 255);</string>
+       <string notr="true">background-color: rgb(40, 155, 213);</string>
       </property>
       <property name="text">
        <string/>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="comboBox_3">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>1060</x>
-        <y>540</y>
-        <width>281</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string>color: rgb(0, 0, 0);</string>
       </property>
      </widget>
     </widget>
@@ -1709,7 +1696,7 @@ background-color: rgb(228, 237, 243);</string>
      <string>首页</string>
     </property>
     <property name="icon">
-     <iconset>
+     <iconset resource="res.qrc">
       <normaloff>:/Image/homePage.png</normaloff>:/Image/homePage.png</iconset>
     </property>
     <property name="iconSize">
@@ -1737,7 +1724,7 @@ background-color: rgb(228, 237, 243);</string>
      <string>升级</string>
     </property>
     <property name="icon">
-     <iconset>
+     <iconset resource="res.qrc">
       <normaloff>:/Image/upgrade.png</normaloff>:/Image/upgrade.png</iconset>
     </property>
     <property name="iconSize">
@@ -1756,7 +1743,7 @@ background-color: rgb(228, 237, 243);</string>
      <string>用户名</string>
     </property>
     <property name="icon">
-     <iconset>
+     <iconset resource="res.qrc">
       <normaloff>:/Image/user.png</normaloff>:/Image/user.png</iconset>
     </property>
     <property name="iconSize">
@@ -1809,6 +1796,8 @@ background-color: rgb(228, 237, 243);</string>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

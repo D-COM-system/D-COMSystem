@@ -13,7 +13,22 @@ FundBalanceQuery::FundBalanceQuery(QWidget *parent) :
 {
     ui->setupUi(this);
     comboBoxAddItem();
+    // 设置下拉框的颜色
+    QString comboBoxStyle = "QComboBox {"
+                            "background-color: #FFFFFF;"  // 设置背景色
+                            "color: #000000;"  // 设置文字颜色
+                            "selection-background-color: #C0C0C0;"  // 设置选中项的背景色
+                            "selection-color: #000000;"  // 设置选中项的文字颜色
+                            "}";
+
+    // 设置子项之间的间距
+    comboBoxStyle += "QComboBox QAbstractItemView {"
+                     "spacing: 10px;"  // 设置子项之间的间距
+                     "}";
+
+    ui->comboBox->setStyleSheet(comboBoxStyle);
     connect(ui->pushButton_5, &QPushButton::clicked, this, &FundBalanceQuery::siftToData);
+
 }
 
 FundBalanceQuery::~FundBalanceQuery()
@@ -22,7 +37,7 @@ FundBalanceQuery::~FundBalanceQuery()
 }
 
 void FundBalanceQuery::comboBoxAddItem() {
-    ui->comboBox->setEditable(true);
+    ui->comboBox->setEditable(false);
     // 连接数据库
     QString dbName = "database.db";
     QString dbPath = QCoreApplication::applicationDirPath() + "./" + dbName;  // Use a relative path
@@ -77,17 +92,17 @@ void FundBalanceQuery::siftToData() {
             //        QString accountResult = query.value("account").toString();
             QString nameResult = query.value("name").toString();
             QString currencyResult = query.value("currency").toString();
-            QString presentResult = query.value("present").toString();
-            QString startResult = query.value("start").toString();
-            QString productResult = query.value("product").toString();
-            QString nonpaymentResult = query.value("nonpayment").toString();
-            QString drawingResult = query.value("drawing").toString();
-            QString daytimeResult = query.value("daytime").toString();
-            QString a_depositResult = query.value("a_deposit").toString();
-            QString day_saveResult = query.value("day_save").toString();
-            QString a_withdrawalResult = query.value("a_withdrawal").toString();
-            QString day_withdrawResult = query.value("day_withdraw").toString();
-            QString minResult = query.value("min").toString();
+            QString presentResult = QString("%1").arg(query.value("present").toDouble(), 0, 'f', 2);
+            QString startResult = QString("%1").arg(query.value("start").toDouble(), 0, 'f', 2);
+            QString productResult = QString("%1").arg(query.value("product").toDouble(), 0, 'f', 2);
+            QString nonpaymentResult = QString("%1").arg(query.value("nonpayment").toDouble(), 0, 'f', 2);
+            QString drawingResult = QString("%1").arg(query.value("drawing").toDouble(), 0, 'f', 2);
+            QString daytimeResult = QString("%1").arg(query.value("daytime").toDouble(), 0, 'f', 2);
+            QString a_depositResult = QString("%1").arg(query.value("a_deposit").toDouble(), 0, 'f', 2);
+            QString day_saveResult = QString("%1").arg(query.value("day_save").toDouble(), 0, 'f', 2);
+            QString a_withdrawalResult = QString("%1").arg(query.value("a_withdrawal").toDouble(), 0, 'f', 2);
+            QString day_withdrawResult = QString("%1").arg(query.value("day_withdraw").toDouble(), 0, 'f', 2);
+            QString minResult = QString("%1").arg(query.value("min").toDouble(), 0, 'f', 2);
             QString stateResult = query.value("state").toString();
             ui->lineEdit_7->setText(nameResult);
             ui->comboBox_2->setEditText(currencyResult);

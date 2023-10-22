@@ -52,6 +52,9 @@ public slots:
 protected:
     void showEvent(QShowEvent *event) override;
     bool eventFilter(QObject* object, QEvent* event) override;
+
+public:
+    void setIsShowBread(bool isShow);
 };
 
 #endif // DASHBOARD_H

@@ -41,6 +41,14 @@ RTGSEntryQuery::RTGSEntryQuery(QWidget *parent) :
     ui->tableWidget_2->setHorizontalHeaderLabels(headerLabels);
     ui->tableWidget_2->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget_2->setRowCount(pageSize);
+    //让tableWidget内容中的每个元素居中
+    ui->tableWidget_2->setSelectionBehavior(QAbstractItemView::SelectRows);//设置整行选中
+    ui->tableWidget_2->horizontalHeader()->setDefaultAlignment(Qt::AlignHCenter);//表头字体居中
+    ui->tableWidget_2->setEditTriggers(QAbstractItemView::NoEditTriggers);//单元格不可编辑
+    // 设置表头的底色和文字加粗
+    QString styleSheet = "QHeaderView::section { background-color: #f5f5f5; font-weight: bold; }";
+    // 将样式表应用于表格的表头
+    ui->tableWidget_2->horizontalHeader()->setStyleSheet(styleSheet);
 
     updateTableDisplay();
 //    qDebug() << totalRows;
@@ -122,7 +130,13 @@ void RTGSEntryQuery::updateTableDisplay()
 
         while (query.next()) {
             QCheckBox *checkBox = new QCheckBox();
-            ui->tableWidget_2->setCellWidget(rowIndex, 0, checkBox);
+            QHBoxLayout *layoutCheckBox = new QHBoxLayout();
+            QWidget *widget = new QWidget(ui->tableWidget_2);
+            layoutCheckBox->addWidget(checkBox);
+            layoutCheckBox->setMargin(0);
+            layoutCheckBox->setAlignment(checkBox, Qt::AlignCenter);
+            widget->setLayout(layoutCheckBox);
+            ui->tableWidget_2->setCellWidget(rowIndex, 0, widget);
             connect(checkBox, &QCheckBox::clicked, this, &RTGSEntryQuery::selectRows);
             connect(ui->checkBox, &QCheckBox::toggled, this, &RTGSEntryQuery::checkbox_toggled);
             QTableWidgetItem *item1 = new QTableWidgetItem(query.value(1).toString());
@@ -146,6 +160,17 @@ void RTGSEntryQuery::updateTableDisplay()
             ui->tableWidget_2->setItem(rowIndex, 8, item6);
             ui->tableWidget_2->setItem(rowIndex, 9, item7);
             ui->tableWidget_2->setItem(rowIndex, 10, item8);
+            emptyItem1->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+            item1->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+            item2->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+            emptyItem2->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+            item3->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+            item4->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+            item5->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+            item6->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+            item7->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+            item8->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+
             // 根据checkboxStateMap设置勾选状态
             if(currentPage + 1 != totalPages) {
                 int actualRowIndex = startRow + pageSize;
@@ -174,9 +199,16 @@ void RTGSEntryQuery::updateTableDisplay()
 
     // 关闭数据库连接
     database.close();
-    ui->lineEdit_6->setText("当前页记录数:" + QString::number(numRows));
-    ui->lineEdit_10->setText("当前页码:" + QString::number(currentPage + 1) + "/" + QString::number(totalPages));
-    ui->lineEdit_11->setText("共计:" + QString::number(totalRows) + "条记录");
+    QString text1 = "当前页记录数:";
+    QString text2 = "当前页码:";
+    QString text3 = "共计:";
+    QString styledText1 = "<font color='black'>" + text1 + "</font>" + "<font color='red'>" + QString::number(numRows) + "</font>";
+    QString styledText2 = "<font color='black'>" + text2 + "</font>" + "<font color='red'>" + QString::number(currentPage + 1) + "</font>" + "<font color='black'>" + "/" + "</font>" + "<font color='red'>" + QString::number(totalPages) + "</font>";
+    QString styledText3 = "<font color='black'>" + text3 + "</font>" + "<font color='red'>" + QString::number(totalRows) + "</font>" + "<font color='black'>" + "条记录" + "</font>";
+
+    ui->textEdit_2->setHtml(styledText1);
+    ui->textEdit_3->setHtml(styledText2);
+    ui->textEdit_6->setHtml(styledText3);
 }
 
 
@@ -306,9 +338,16 @@ void RTGSEntryQuery::siftToData() {
             }
             // 删除空行
             removeEmptyRows(ui->tableWidget_2);
-            ui->lineEdit_6->setText("当前页记录数:" + QString::number(rowIndex));
-            ui->lineEdit_10->setText("当前页码:" + QString::number(1) + "/" + QString::number(rowIndex/pageSize + 1));
-            ui->lineEdit_11->setText("共计:" + QString::number(rowIndex) + "条记录");
+            QString text1 = "当前页记录数:";
+            QString text2 = "当前页码:";
+            QString text3 = "共计:";
+            QString styledText1 = "<font color='black'>" + text1 + "</font>" + "<font color='red'>" + QString::number(numRows) + "</font>";
+            QString styledText2 = "<font color='black'>" + text2 + "</font>" + "<font color='red'>" + QString::number(currentPage + 1) + "</font>" + "<font color='black'>" + "/" + "</font>" + "<font color='red'>" + QString::number(totalPages) + "</font>";
+            QString styledText3 = "<font color='black'>" + text3 + "</font>" + "<font color='red'>" + QString::number(totalRows) + "</font>" + "<font color='black'>" + "条记录" + "</font>";
+
+            ui->textEdit_2->setHtml(styledText1);
+            ui->textEdit_3->setHtml(styledText2);
+            ui->textEdit_6->setHtml(styledText3);
         } else {
             QMessageBox::critical(nullptr, "错误", "查询执行失败：" + query.lastError().text());
             return;

@@ -4,6 +4,7 @@
 
 #include <QString>
 
+extern bool isShowBread;
 extern QString globalUserName;
 extern QString globalCusNumber;
 
