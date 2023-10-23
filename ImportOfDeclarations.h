@@ -26,6 +26,7 @@ private slots:
     void importFile();
     void resetText();
     void closeMessageWindow();
+    bool judgeFile();
 
 signals:
     void informationBack();

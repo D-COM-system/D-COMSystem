@@ -23,6 +23,7 @@ SOURCES += \
     globalData.cpp \
     main.cpp \
     record.cpp \
+    test.cpp \
     toast.cpp \
     user.cpp \
     widget.cpp
@@ -34,6 +35,7 @@ HEADERS += \
     RTGSEntryQuery.h \
     dashboard.h \
     globalData.h \
+    test.h \
     toast.h \
     widget.h
 
@@ -44,6 +46,7 @@ FORMS += \
     RTGSEntryQuery.ui \
     dashboard.ui \
     globalData.ui \
+    test.ui \
     widget.ui
 
 # Default rules for deployment.

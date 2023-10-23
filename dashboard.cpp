@@ -25,7 +25,7 @@ dashboard::dashboard(QWidget *parent) :
 
     // 设置窗口大小
     int windowWidth = screenWidth * 0.8;  // 设置为屏幕宽度的80%
-    int windowHeight = screenHeight * 0.8;  // 设置为屏幕高度的80%
+    int windowHeight = screenHeight * 0.9;  // 设置为屏幕高度的80%
     ui->widget_3->setFixedHeight(windowHeight);
     setFixedSize(windowWidth, windowHeight);  // 设置窗口固定大小
 }

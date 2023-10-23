@@ -1,4 +1,4 @@
-#include "RTGSEntryQuery.h"
+ #include "RTGSEntryQuery.h"
 #include "ui_RTGSEntryQuery.h"
 
 RTGSEntryQuery::RTGSEntryQuery(QWidget *parent) :
@@ -250,7 +250,7 @@ void RTGSEntryQuery::siftToData() {
     QString securities_account = ui->lineEdit_7->text();
     QString account = ui->lineEdit_8->text();
     QString code = ui->lineEdit_9->text();
-    if(securities_account != NULL && account != NULL && code != NULL) {
+    if(securities_account != NULL || account != NULL || code != NULL) {
         QString dbName = "database.db";
         QString dbPath = QCoreApplication::applicationDirPath() + "./" + dbName;  // Use a relative path
         QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");
@@ -282,13 +282,34 @@ void RTGSEntryQuery::siftToData() {
         ui->tableWidget_2->clearContents(); // 清空表格内容
         ui->tableWidget_2->setRowCount(numRows);
         // 执行查询
+//        query.prepare("SELECT * FROM entering WHERE account = :account AND securities_account = :securities_account AND code = :code LIMIT :startRow, :numRows");
+//        query.bindValue(":account", account);
+//        query.bindValue(":securities_account", securities_account);
+//        query.bindValue(":code", code);
+//        query.bindValue(":startRow", startRow);
+//        query.bindValue(":numRows", numRows);
+        QString queryString = "SELECT * FROM entering WHERE 1=1";
+        query.prepare(queryString);
+        if (account != NULL) {
+            queryString += " AND account = :account";
+            query.bindValue(":account", account);
+        }
 
-        query.prepare("SELECT * FROM entering WHERE account = :account AND securities_account = :securities_account AND code = :code LIMIT :startRow, :numRows");
-        query.bindValue(":account", account);
-        query.bindValue(":securities_account", securities_account);
-        query.bindValue(":code", code);
+        if (securities_account != NULL) {
+            queryString += " AND securities_account = :securities_account";
+            query.bindValue(":securities_account", securities_account);
+        }
+
+        if (code != NULL) {
+            queryString += " AND code = :code";
+            query.bindValue(":code", code);
+        }
+
+        queryString += " LIMIT :startRow, :numRows";
         query.bindValue(":startRow", startRow);
         query.bindValue(":numRows", numRows);
+        qDebug() << queryString;
+        query.prepare(queryString);
         if (query.exec()) {
             int rowIndex = 0; // 当前页内的行索引
 

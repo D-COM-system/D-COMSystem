@@ -69,10 +69,17 @@ void  ImportOfDeclarations::chooseFile()
 
 void ImportOfDeclarations::importFile()
 {
+    int successInsert = 0;
+    //判断文件是否符合导入需求
+    if(!judgeFile()) {
+        ui->lineEdit_6->clear();
+        ui->lineEdit_9->setText("本次共导入" + QString::number(successInsert) + "条数据");
+                                               ui->widget_5->setVisible(true);
+        return ;
+    }
     if(ui->lineEdit_6->text().isEmpty()) {
         return ;
     }
-    int successInsert = 0;
     QString dbName = "database.db";
     QString dbPath = QCoreApplication::applicationDirPath() + "./" + dbName;  // Use a relative path
 
@@ -145,4 +152,30 @@ void ImportOfDeclarations::resetText() {
 
 void ImportOfDeclarations::closeMessageWindow() {
     ui->widget_5->setVisible(false);
+}
+
+bool ImportOfDeclarations::judgeFile() {
+    // Load the Excel file
+    QXlsx::Document excelFile(nowFilePath);
+    // Assuming the data is in the first sheet
+    QXlsx::Worksheet* sheet = excelFile.currentWorksheet();
+    if(sheet->dimension().lastColumn() != 9) {
+            return false;
+    }
+    if(sheet->dimension().lastRow() == 9) {
+            return false;
+    }
+//    for (int row = 0; row <= 1; ++row) {
+//        QString guid = sheet->read(row, 1).toString();
+//        QString state = sheet->read(row, 2).toString();
+//        QString institutionCode = sheet->read(row, 3).toString();
+//        QString institutionName = sheet->read(row, 4).toString();
+//        QString TotalAssets = sheet->read(row, 5).toString();
+//        QString MaxAccount = sheet->read(row, 6).toString();
+//        QString ControlClass = sheet->read(row, 7).toString();
+//        QString dataEntryClerk = sheet->read(row, 8).toString();
+//        qDebug() << guid;
+//    }
+
+    return true;
 }

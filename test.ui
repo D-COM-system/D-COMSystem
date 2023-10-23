@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>dashboard</class>
- <widget class="QWidget" name="dashboard">
-  <property name="windowModality">
-   <enum>Qt::NonModal</enum>
-  </property>
+ <class>test</class>
+ <widget class="QWidget" name="test">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,17 +10,8 @@
     <height>1080</height>
    </rect>
   </property>
-  <property name="maximumSize">
-   <size>
-    <width>1920</width>
-    <height>1080</height>
-   </size>
-  </property>
-  <property name="tabletTracking">
-   <bool>false</bool>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: rgb(245, 245, 245);</string>
+  <property name="windowTitle">
+   <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
@@ -1132,458 +1120,427 @@ margin-left: 18px;</string>
       </item>
       <item>
        <widget class="QWidget" name="widget_2" native="true">
-        <widget class="QPushButton" name="pushButton_7">
-         <property name="geometry">
-          <rect>
-           <x>65</x>
-           <y>20</y>
-           <width>571</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">border:none;
-background:transparent;
-text-align: left;</string>
-         </property>
-         <property name="text">
-          <string>/xx/xx</string>
-         </property>
-        </widget>
         <widget class="QStackedWidget" name="stackedWidget_2">
          <property name="geometry">
           <rect>
            <x>30</x>
            <y>42</y>
-           <width>1680</width>
-           <height>931</height>
+           <width>1720</width>
+           <height>910</height>
           </rect>
          </property>
          <widget class="QWidget" name="page_3">
-          <widget class="QWidget" name="widget_8" native="true">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>0</y>
-             <width>1721</width>
-             <height>911</height>
-            </rect>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="spacing">
+            <number>0</number>
            </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);</string>
+           <property name="leftMargin">
+            <number>0</number>
            </property>
-           <widget class="QTableWidget" name="tableWidget_4">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="geometry">
-             <rect>
-              <x>40</x>
-              <y>170</y>
-              <width>1001</width>
-              <height>361</height>
-             </rect>
-            </property>
-            <property name="tabletTracking">
-             <bool>false</bool>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::TabFocus</enum>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="horizontalScrollBarPolicy">
-             <enum>Qt::ScrollBarAsNeeded</enum>
-            </property>
-            <property name="alternatingRowColors">
-             <bool>false</bool>
-            </property>
-            <property name="showGrid">
-             <bool>true</bool>
-            </property>
-            <property name="gridStyle">
-             <enum>Qt::SolidLine</enum>
-            </property>
-            <property name="sortingEnabled">
-             <bool>false</bool>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-            <property name="cornerButtonEnabled">
-             <bool>false</bool>
-            </property>
-            <property name="rowCount">
-             <number>11</number>
-            </property>
-            <attribute name="horizontalHeaderVisible">
-             <bool>false</bool>
-            </attribute>
-            <attribute name="horizontalHeaderCascadingSectionResizes">
-             <bool>false</bool>
-            </attribute>
-            <attribute name="horizontalHeaderDefaultSectionSize">
-             <number>500</number>
-            </attribute>
-            <attribute name="horizontalHeaderHighlightSections">
-             <bool>true</bool>
-            </attribute>
-            <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-             <bool>false</bool>
-            </attribute>
-            <attribute name="horizontalHeaderStretchLastSection">
-             <bool>false</bool>
-            </attribute>
-            <attribute name="verticalHeaderVisible">
-             <bool>false</bool>
-            </attribute>
-            <attribute name="verticalHeaderCascadingSectionResizes">
-             <bool>false</bool>
-            </attribute>
-            <attribute name="verticalHeaderHighlightSections">
-             <bool>true</bool>
-            </attribute>
-            <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-             <bool>false</bool>
-            </attribute>
-            <attribute name="verticalHeaderStretchLastSection">
-             <bool>true</bool>
-            </attribute>
-            <row/>
-            <row/>
-            <row/>
-            <row/>
-            <row/>
-            <row/>
-            <row/>
-            <row/>
-            <row/>
-            <row/>
-            <row/>
-            <column>
-             <property name="text">
-              <string>新建列</string>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
              </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>新建列</string>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
              </property>
-            </column>
-            <item row="0" column="0">
-             <property name="text">
-              <string>D-COM用户号</string>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
              </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_8" native="true">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
              </property>
-            </item>
-            <item row="0" column="1">
-             <property name="text">
-              <string>xxx</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="1" column="0">
-             <property name="text">
-              <string>D-COM终端版本</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="1" column="1">
-             <property name="text">
-              <string>20230315</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="2" column="0">
-             <property name="text">
-              <string>D-COM终端地址</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="2" column="1">
-             <property name="text">
-              <string>127.0.0.1</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="3" column="0">
-             <property name="text">
-              <string>D-COM网关地址</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="3" column="1">
-             <property name="text">
-              <string>127.0.0.1</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="4" column="0">
-             <property name="text">
-              <string>D-COM网关版本</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="4" column="1">
-             <property name="text">
-              <string>20230206</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="5" column="0">
-             <property name="text">
-              <string>主站服务器地址</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="5" column="1">
-             <property name="text">
-              <string>192.168.96.183</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="6" column="0">
-             <property name="text">
-              <string>主站服务器端口</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="6" column="1">
-             <property name="text">
-              <string>7031</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="7" column="0">
-             <property name="text">
-              <string>最近一次登录的时间</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="7" column="1">
-             <property name="text">
-              <string>YYYY-MM-DD HH:MM:SS</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="8" column="0">
-             <property name="text">
-              <string>新通知公告</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="8" column="1">
-             <property name="text">
-              <string>0</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="9" column="0">
-             <property name="text">
-              <string>文件任务</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="9" column="1">
-             <property name="text">
-              <string>0</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="10" column="0">
-             <property name="text">
-              <string>结算工作日</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-            <item row="10" column="1">
-             <property name="text">
-              <string>YYYY-MM-DD</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-            </item>
-           </widget>
-           <widget class="QLineEdit" name="lineEdit_11">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="geometry">
-             <rect>
-              <x>40</x>
-              <y>40</y>
-              <width>1001</width>
-              <height>111</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font-size:16px;</string>
-            </property>
-            <property name="text">
-             <string>321321</string>
-            </property>
-            <property name="frame">
-             <bool>false</bool>
-            </property>
-            <property name="cursorPosition">
-             <number>6</number>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="lineEdit_12">
-            <property name="geometry">
-             <rect>
-              <x>40</x>
-              <y>150</y>
-              <width>1001</width>
-              <height>20</height>
-             </rect>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="text">
-             <string>                                                                             系统信息概述</string>
-            </property>
-            <property name="cursorMoveStyle">
-             <enum>Qt::LogicalMoveStyle</enum>
-            </property>
-           </widget>
-          </widget>
+             <widget class="QLineEdit" name="lineEdit_11">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>9</x>
+                <y>40</y>
+                <width>1000</width>
+                <height>110</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font-size:16px;</string>
+              </property>
+              <property name="text">
+               <string>321321</string>
+              </property>
+              <property name="frame">
+               <bool>false</bool>
+              </property>
+              <property name="cursorPosition">
+               <number>6</number>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="lineEdit_12">
+              <property name="geometry">
+               <rect>
+                <x>9</x>
+                <y>150</y>
+                <width>1000</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="text">
+               <string>                                                                             系统信息概述</string>
+              </property>
+              <property name="cursorMoveStyle">
+               <enum>Qt::LogicalMoveStyle</enum>
+              </property>
+             </widget>
+             <widget class="QTableWidget" name="tableWidget_4">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>9</x>
+                <y>170</y>
+                <width>1000</width>
+                <height>360</height>
+               </rect>
+              </property>
+              <property name="tabletTracking">
+               <bool>false</bool>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="alternatingRowColors">
+               <bool>false</bool>
+              </property>
+              <property name="showGrid">
+               <bool>true</bool>
+              </property>
+              <property name="gridStyle">
+               <enum>Qt::SolidLine</enum>
+              </property>
+              <property name="sortingEnabled">
+               <bool>false</bool>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+              <property name="cornerButtonEnabled">
+               <bool>false</bool>
+              </property>
+              <property name="rowCount">
+               <number>11</number>
+              </property>
+              <attribute name="horizontalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="horizontalHeaderCascadingSectionResizes">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>500</number>
+              </attribute>
+              <attribute name="horizontalHeaderHighlightSections">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderCascadingSectionResizes">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderHighlightSections">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
+              <row/>
+              <row/>
+              <row/>
+              <row/>
+              <row/>
+              <row/>
+              <row/>
+              <row/>
+              <row/>
+              <row/>
+              <row/>
+              <column>
+               <property name="text">
+                <string>新建列</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>新建列</string>
+               </property>
+              </column>
+              <item row="0" column="0">
+               <property name="text">
+                <string>D-COM用户号</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="0" column="1">
+               <property name="text">
+                <string>xxx</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="1" column="0">
+               <property name="text">
+                <string>D-COM终端版本</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="1" column="1">
+               <property name="text">
+                <string>20230315</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="2" column="0">
+               <property name="text">
+                <string>D-COM终端地址</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="2" column="1">
+               <property name="text">
+                <string>127.0.0.1</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="3" column="0">
+               <property name="text">
+                <string>D-COM网关地址</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="3" column="1">
+               <property name="text">
+                <string>127.0.0.1</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="4" column="0">
+               <property name="text">
+                <string>D-COM网关版本</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="4" column="1">
+               <property name="text">
+                <string>20230206</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="5" column="0">
+               <property name="text">
+                <string>主站服务器地址</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="5" column="1">
+               <property name="text">
+                <string>192.168.96.183</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="6" column="0">
+               <property name="text">
+                <string>主站服务器端口</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="6" column="1">
+               <property name="text">
+                <string>7031</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="7" column="0">
+               <property name="text">
+                <string>最近一次登录的时间</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="7" column="1">
+               <property name="text">
+                <string>YYYY-MM-DD HH:MM:SS</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="8" column="0">
+               <property name="text">
+                <string>新通知公告</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="8" column="1">
+               <property name="text">
+                <string>0</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="9" column="0">
+               <property name="text">
+                <string>文件任务</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="9" column="1">
+               <property name="text">
+                <string>0</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="10" column="0">
+               <property name="text">
+                <string>结算工作日</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+              <item row="10" column="1">
+               <property name="text">
+                <string>YYYY-MM-DD</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </item>
+             </widget>
+            </widget>
+           </item>
+          </layout>
          </widget>
-        </widget>
-        <widget class="QPushButton" name="pushButton_9">
-         <property name="geometry">
-          <rect>
-           <x>33</x>
-           <y>20</y>
-           <width>31</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>45</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">border:none;
-background:transparent;
-text-align: right;
-color: blue;</string>
-         </property>
-         <property name="text">
-          <string>首页</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
         </widget>
         <widget class="QWidget" name="widget_3" native="true">
          <property name="geometry">
@@ -1591,12 +1548,35 @@ color: blue;</string>
            <x>0</x>
            <y>0</y>
            <width>250</width>
-           <height>1001</height>
+           <height>2000</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>2000</height>
+          </size>
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgb(46, 137, 189);</string>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+         </layout>
         </widget>
         <widget class="QPushButton" name="pushButton_8">
          <property name="geometry">
@@ -1622,6 +1602,67 @@ color: blue;</string>
          <property name="flat">
           <bool>true</bool>
          </property>
+        </widget>
+        <widget class="QWidget" name="">
+         <property name="geometry">
+          <rect>
+           <x>33</x>
+           <y>20</y>
+           <width>681</width>
+           <height>18</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="pushButton_9">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>45</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border:none;
+background:transparent;
+text-align: right;
+color: blue;</string>
+            </property>
+            <property name="text">
+             <string>首页</string>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_7">
+            <property name="styleSheet">
+             <string notr="true">border:none;
+background:transparent;
+text-align: left;</string>
+            </property>
+            <property name="text">
+             <string>/xx/xx</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
         <zorder>pushButton_7</zorder>
         <zorder>stackedWidget_2</zorder>
