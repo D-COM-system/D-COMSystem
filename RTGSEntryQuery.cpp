@@ -278,6 +278,9 @@ void RTGSEntryQuery::siftToData() {
         int startRow = 0 * pageSize; // 当前页的起始行
         int endRow = qMin(startRow + pageSize, totalRows); // 当前页的结束行
         int numRows = endRow - startRow; // 当前页的行数
+        int judgeAccount = 0;
+        int judgeSecurities_account = 0;
+        int judgeCode = 0;
 
         ui->tableWidget_2->clearContents(); // 清空表格内容
         ui->tableWidget_2->setRowCount(numRows);
@@ -289,33 +292,48 @@ void RTGSEntryQuery::siftToData() {
 //        query.bindValue(":startRow", startRow);
 //        query.bindValue(":numRows", numRows);
         QString queryString = "SELECT * FROM entering WHERE 1=1";
-        query.prepare(queryString);
         if (account != NULL) {
             queryString += " AND account = :account";
-            query.bindValue(":account", account);
+            judgeAccount = 1;
         }
 
         if (securities_account != NULL) {
             queryString += " AND securities_account = :securities_account";
-            query.bindValue(":securities_account", securities_account);
+            judgeSecurities_account = 1;
         }
 
         if (code != NULL) {
             queryString += " AND code = :code";
-            query.bindValue(":code", code);
+            judgeCode = 1;
         }
 
         queryString += " LIMIT :startRow, :numRows";
+        query.prepare(queryString);
+        if(judgeAccount) {
+            query.bindValue(":account", account);
+        }
+        if(judgeSecurities_account) {
+            query.bindValue(":securities_account", securities_account);
+        }
+        if(judgeCode) {
+            query.bindValue(":code", code);
+        }
         query.bindValue(":startRow", startRow);
         query.bindValue(":numRows", numRows);
         qDebug() << queryString;
-        query.prepare(queryString);
+
         if (query.exec()) {
             int rowIndex = 0; // 当前页内的行索引
 
             while (query.next()) {
                 QCheckBox *checkBox = new QCheckBox();
-                ui->tableWidget_2->setCellWidget(rowIndex, 0, checkBox);
+                QHBoxLayout *layoutCheckBox = new QHBoxLayout();
+                QWidget *widget = new QWidget(ui->tableWidget_2);
+                layoutCheckBox->addWidget(checkBox);
+                layoutCheckBox->setMargin(0);
+                layoutCheckBox->setAlignment(checkBox, Qt::AlignCenter);
+                widget->setLayout(layoutCheckBox);
+                ui->tableWidget_2->setCellWidget(rowIndex, 0, widget);
                 connect(checkBox, &QCheckBox::clicked, this, &RTGSEntryQuery::selectRows);
                 connect(ui->checkBox, &QCheckBox::toggled, this, &RTGSEntryQuery::checkbox_toggled);
                 QTableWidgetItem *item1 = new QTableWidgetItem(query.value(1).toString());
@@ -339,6 +357,17 @@ void RTGSEntryQuery::siftToData() {
                 ui->tableWidget_2->setItem(rowIndex, 8, item6);
                 ui->tableWidget_2->setItem(rowIndex, 9, item7);
                 ui->tableWidget_2->setItem(rowIndex, 10, item8);
+                emptyItem1->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+                item1->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+                item2->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+                emptyItem2->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+                item3->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+                item4->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+                item5->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+                item6->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+                item7->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+                item8->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+
                 // 根据checkboxStateMap设置勾选状态
                 if(currentPage + 1 != totalPages) {
                     int actualRowIndex = startRow + pageSize;
@@ -377,6 +406,9 @@ void RTGSEntryQuery::siftToData() {
         // 关闭数据库连接
         database.close();
     } else {
-        return ;
+        currentPage = 0,
+        pageSize = 50,
+        totalPages = ((totalRows + pageSize - 1) / pageSize);
+        updateTableDisplay();
     }
 }
