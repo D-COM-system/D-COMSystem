@@ -13,9 +13,7 @@ dashboard::dashboard(QWidget *parent) :
     ui(new Ui::dashboard)
 {
     ui->setupUi(this);
-//    // 获取默认屏幕
-//    QScreen* screen = QGuiApplication::primaryScreen();
-
+    QScreen* screen = QGuiApplication::primaryScreen();
 //    // 获取屏幕的几何矩形
 //    QRect screenGeometry = screen->geometry();
 
@@ -26,9 +24,6 @@ dashboard::dashboard(QWidget *parent) :
 //    // 设置窗口大小
 //    int windowWidth = screenWidth * 0.8;  // 设置为屏幕宽度的80%
 //    int windowHeight = screenHeight * 0.8;  // 设置为屏幕高度的80%
-//    ui->widget_3->setFixedHeight(windowHeight);
-//    ui->stackedWidget_2->setFixedWidth(windowWidth);
-//    ui->stackedWidget_2->setFixedHeight(windowHeight);
 //    setFixedSize(windowWidth, windowHeight);  // 设置窗口固定大小
 }
 
@@ -58,24 +53,24 @@ void dashboard::updateTime()
 
 void dashboard::initializeDashboard()
 {
-    ui->lineEdit_11->setText(globalUserName + "，欢迎使用D-COM业务终端！"); // 设置拼接后的文本到lineEdit_7
+    ui->lineEdit_13->setText(globalUserName + "，欢迎使用D-COM业务终端！"); // 设置拼接后的文本到lineEdit_7
     ui->pushButton_22->setText(globalCusNumber);
-    ui->tableWidget_4->horizontalHeader()->setDefaultAlignment(Qt::AlignHCenter);
-    ui->tableWidget_4->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->tableWidget_4->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->tableWidget_5->horizontalHeader()->setDefaultAlignment(Qt::AlignHCenter);
+    ui->tableWidget_5->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget_5->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     QDateTime currentTime = QDateTime::currentDateTime();
     QString formattedTime = currentTime.toString("yyyy-MM-dd hh:mm:ss");
     QTableWidgetItem *nowUser = new QTableWidgetItem(globalCusNumber);
     QTableWidgetItem *loginTime = new QTableWidgetItem(formattedTime);
     nowUser->setFlags(nowUser->flags() & (~Qt::ItemIsEditable));
     loginTime->setFlags(loginTime->flags() & (~Qt::ItemIsEditable));
-    ui->tableWidget_4->setItem(0, 1, nowUser);
-    ui->tableWidget_4->setItem(7, 1, loginTime);
-    ui->tableWidget_4->item(0, 1)->setFont(QFont("Microsoft YaHei UI", 12));
-    ui->tableWidget_4->item(7, 1)->setFont(QFont("Microsoft YaHei UI", 12));
+    ui->tableWidget_5->setItem(0, 1, nowUser);
+    ui->tableWidget_5->setItem(7, 1, loginTime);
+    ui->tableWidget_5->item(0, 1)->setFont(QFont("Microsoft YaHei UI", 12));
+    ui->tableWidget_5->item(7, 1)->setFont(QFont("Microsoft YaHei UI", 12));
     for (int i = 0; i < 11; i++) {
         for (int j = 0; j < 2; j++) {
-            QTableWidgetItem* item = ui->tableWidget_4->item(i, j);
+            QTableWidgetItem* item = ui->tableWidget_5->item(i, j);
             if (item) {
                 item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
             }
@@ -86,20 +81,20 @@ void dashboard::initializeDashboard()
     connect(timer, &QTimer::timeout, this, &dashboard::updateTime);
     timer->start(1000);
 
-    QWidget* widget_3 = findChild<QWidget*>("widget_3");
+    QWidget* widget_16 = findChild<QWidget*>("widget_16");
 
-    widget_3->setVisible(false);
+    widget_16->setVisible(false);
     QToolButton* toolButton_64 = findChild<QToolButton*>("toolButton_64");
     QToolButton* toolButton_61 = findChild<QToolButton*>("toolButton_61");
     if (toolButton_64) {
         // 监听鼠标进入事件
         toolButton_64->installEventFilter(this);
-        widget_3->installEventFilter(this);
+        widget_16->installEventFilter(this);
     }
     if (toolButton_61) {
         // 监听鼠标进入事件
         toolButton_61->installEventFilter(this);
-        widget_3->installEventFilter(this);
+        widget_16->installEventFilter(this);
     }
     connect(ui->pushButton_9, &QPushButton::clicked, this, &dashboard::reDashboard);
     connect(ui->pushButton_24, &QPushButton::clicked, this, &dashboard::reDashboard);
@@ -113,20 +108,20 @@ void dashboard::showEvent(QShowEvent *event)
 }
 
 bool dashboard::eventFilter(QObject* object, QEvent* event) {
-    QWidget* widget_3 = findChild<QWidget*>("widget_3");
+    QWidget* widget_16 = findChild<QWidget*>("widget_16");
     QToolButton* toolButton_64 = findChild<QToolButton*>("toolButton_64");
     QToolButton* toolButton_61 = findChild<QToolButton*>("toolButton_61");
     if (object == toolButton_64) {
         if (event->type() == QEvent::Enter) {
-            QTreeWidget* treeWidget = new QTreeWidget(widget_3);
+            QTreeWidget* treeWidget = new QTreeWidget(widget_16);
             if (!treeWidget) {
-                treeWidget = new QTreeWidget(widget_3);
+                treeWidget = new QTreeWidget(widget_16);
                 treeWidget->setObjectName("treeWidget");
-                widget_3->layout()->addWidget(treeWidget);
+                widget_16->layout()->addWidget(treeWidget);
             }
             createFundMenu(treeWidget);
             // 设置 QTreeWidget 的大小与 第二菜单 相同
-            treeWidget->setGeometry(widget_3->rect());
+            treeWidget->setGeometry(widget_16->rect());
 
             // 设置左间隔为 35px
             QString styleSheet = "QTreeWidget { "
@@ -136,26 +131,26 @@ bool dashboard::eventFilter(QObject* object, QEvent* event) {
             treeWidget->setStyleSheet(styleSheet);
 
             // 鼠标进入 toolButton_4，将第二菜单显示
-            widget_3->setVisible(true);
+            widget_16->setVisible(true);
         } else if (event->type() == QEvent::Leave) {
             // 鼠标离开 toolButton_4，检查鼠标是否进入第二菜单
-            if (!widget_3->underMouse()) {
+            if (!widget_16->underMouse()) {
                 // 鼠标没有进入 第二菜单，将 第二菜单 隐藏
-                widget_3->setVisible(false);
+                widget_16->setVisible(false);
             }
         }
     }
     else if(object == toolButton_61) {
         if (event->type() == QEvent::Enter) {
-            QTreeWidget* treeWidget = new QTreeWidget(widget_3);
+            QTreeWidget* treeWidget = new QTreeWidget(widget_16);
             if (!treeWidget) {
-                treeWidget = new QTreeWidget(widget_3);
+                treeWidget = new QTreeWidget(widget_16);
                 treeWidget->setObjectName("treeWidget");
-                widget_3->layout()->addWidget(treeWidget);
+                widget_16->layout()->addWidget(treeWidget);
             }
             createRTGSMenu(treeWidget);
             // 设置 QTreeWidget 的大小与 第二菜单 相同
-            treeWidget->setGeometry(widget_3->rect());
+            treeWidget->setGeometry(widget_16->rect());
 
             // 设置左间隔为 35px
             QString styleSheet = "QTreeWidget { "
@@ -165,22 +160,22 @@ bool dashboard::eventFilter(QObject* object, QEvent* event) {
             treeWidget->setStyleSheet(styleSheet);
 
             // 鼠标进入 toolButton_64，将 第二菜单 显示
-            widget_3->setVisible(true);
+            widget_16->setVisible(true);
         } else if (event->type() == QEvent::Leave) {
             // 鼠标离开 toolButton_64，检查鼠标是否进入 第二菜单
-            if (!widget_3->underMouse()) {
+            if (!widget_16->underMouse()) {
                 // 鼠标没有进入 第二菜单，将 第二菜单 隐藏
-                widget_3->setVisible(false);
+                widget_16->setVisible(false);
             }
         }
     }
-    else if (object == widget_3) {
+    else if (object == widget_16) {
         if (event->type() == QEvent::Enter) {
             // 鼠标进入 widget_4，将 widget_4 显示
-            widget_3->setVisible(true);
+            widget_16->setVisible(true);
         } else if (event->type() == QEvent::Leave) {
             // 鼠标离开 widget_4，将 widget_4 隐藏
-            widget_3->setVisible(false);
+            widget_16->setVisible(false);
         }
     }
     // 继续传递事件
@@ -457,9 +452,9 @@ void dashboard::handleBackInformation() {
 void dashboard::reDashboard() {
     ui->pushButton_7->setVisible(false);
     ui->pushButton_9->setVisible(false);
-    QWidget* dashboardwidget_8 = findChild<QWidget*>("widget_8");
-    ui->stackedWidget_2->addWidget(dashboardwidget_8);
-    ui->stackedWidget_2->setCurrentWidget(dashboardwidget_8);
+    QWidget* dashboardwidget_9 = findChild<QWidget*>("widget_9");
+    ui->stackedWidget_2->addWidget(dashboardwidget_9);
+    ui->stackedWidget_2->setCurrentWidget(dashboardwidget_9);
     setIsShowBread(false);
 }
 

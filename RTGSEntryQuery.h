@@ -33,8 +33,7 @@ public:
     int pageSize; // 每页显示的行数
     int totalRows; // 总行数
     int totalPages; // 总页数
-    QVector<bool> boolArray;
-    QMap<int, bool> checkboxStateMap;
+    QVector<int> selectedRows; // 存储选中的行索引
     void updateTableDisplay();
     void removeEmptyRows(QTableWidget *tableWidget);
 
@@ -42,7 +41,7 @@ private slots:
     void selectRows();
     void previousPageButton_clicked();
     void nextPageButton_clicked();
-    void checkbox_toggled(bool checked);
+    void AllCheckbox(bool checked);
     void siftToData();
 
 };

@@ -933,7 +933,7 @@ font-size: 16px;
       <rect>
        <x>30</x>
        <y>20</y>
-       <width>1721</width>
+       <width>1670</width>
        <height>961</height>
       </rect>
      </property>
@@ -944,8 +944,8 @@ font-size: 16px;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>860</y>
-        <width>1721</width>
+        <y>780</y>
+        <width>1671</width>
         <height>16</height>
        </rect>
       </property>
@@ -966,9 +966,9 @@ font-size: 16px;
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>70</y>
-        <width>1671</width>
-        <height>781</height>
+        <y>50</y>
+        <width>1631</width>
+        <height>721</height>
        </rect>
       </property>
       <property name="tabletTracking">
@@ -999,8 +999,8 @@ font-size: 16px;
      <widget class="QPushButton" name="pushButton_6">
       <property name="geometry">
        <rect>
-        <x>150</x>
-        <y>880</y>
+        <x>140</x>
+        <y>780</y>
         <width>91</width>
         <height>51</height>
        </rect>
@@ -1020,8 +1020,8 @@ font-size: 16px;
      <widget class="QPushButton" name="pushButton_7">
       <property name="geometry">
        <rect>
-        <x>240</x>
-        <y>880</y>
+        <x>230</x>
+        <y>780</y>
         <width>91</width>
         <height>51</height>
        </rect>
@@ -1041,8 +1041,8 @@ font-size: 16px;
      <widget class="QPushButton" name="pushButton_8">
       <property name="geometry">
        <rect>
-        <x>1400</x>
-        <y>880</y>
+        <x>1360</x>
+        <y>780</y>
         <width>91</width>
         <height>51</height>
        </rect>
@@ -1062,8 +1062,8 @@ font-size: 16px;
      <widget class="QPushButton" name="pushButton_9">
       <property name="geometry">
        <rect>
-        <x>1490</x>
-        <y>880</y>
+        <x>1450</x>
+        <y>780</y>
         <width>91</width>
         <height>51</height>
        </rect>
@@ -1083,8 +1083,8 @@ font-size: 16px;
      <widget class="QPushButton" name="pushButton_10">
       <property name="geometry">
        <rect>
-        <x>1580</x>
-        <y>880</y>
+        <x>1540</x>
+        <y>780</y>
         <width>91</width>
         <height>51</height>
        </rect>
@@ -1104,8 +1104,8 @@ font-size: 16px;
      <widget class="QPushButton" name="pushButton_16">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>880</y>
+        <x>50</x>
+        <y>780</y>
         <width>91</width>
         <height>51</height>
        </rect>
@@ -1125,8 +1125,8 @@ font-size: 16px;
      <widget class="QPushButton" name="pushButton_17">
       <property name="geometry">
        <rect>
-        <x>740</x>
-        <y>880</y>
+        <x>730</x>
+        <y>780</y>
         <width>91</width>
         <height>51</height>
        </rect>
@@ -1147,7 +1147,7 @@ font-size: 16px;
       <property name="geometry">
        <rect>
         <x>122</x>
-        <y>30</y>
+        <y>10</y>
         <width>91</width>
         <height>31</height>
        </rect>
@@ -1171,7 +1171,7 @@ color: #a5a5a5;</string>
       <property name="geometry">
        <rect>
         <x>520</x>
-        <y>30</y>
+        <y>10</y>
         <width>91</width>
         <height>31</height>
        </rect>
@@ -1198,7 +1198,7 @@ color: #a5a5a5;</string>
       <property name="geometry">
        <rect>
         <x>222</x>
-        <y>30</y>
+        <y>10</y>
         <width>91</width>
         <height>31</height>
        </rect>
@@ -1222,7 +1222,7 @@ color: #a5a5a5;</string>
       <property name="geometry">
        <rect>
         <x>420</x>
-        <y>30</y>
+        <y>10</y>
         <width>91</width>
         <height>31</height>
        </rect>
@@ -1246,7 +1246,7 @@ color: #a5a5a5;</string>
       <property name="geometry">
        <rect>
         <x>321</x>
-        <y>30</y>
+        <y>10</y>
         <width>91</width>
         <height>31</height>
        </rect>
@@ -1270,7 +1270,7 @@ color: #a5a5a5;</string>
       <property name="geometry">
        <rect>
         <x>23</x>
-        <y>30</y>
+        <y>10</y>
         <width>91</width>
         <height>31</height>
        </rect>
@@ -1294,7 +1294,7 @@ color: #a5a5a5;</string>
       <property name="geometry">
        <rect>
         <x>1300</x>
-        <y>30</y>
+        <y>10</y>
         <width>330</width>
         <height>16</height>
        </rect>

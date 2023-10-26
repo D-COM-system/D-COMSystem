@@ -30,7 +30,7 @@ RTGSEntryQuery::RTGSEntryQuery(QWidget *parent) :
     // 关闭数据库连接
     database.close();
     currentPage = 0,
-    pageSize = 50,
+    pageSize = 20,
     totalPages = ((totalRows + pageSize - 1) / pageSize);
     QStringList headerLabels;
     headerLabels << "勾选" << "划付序号" << "处理状态" << "清算业务流水号" << "业务流水号"
@@ -49,14 +49,13 @@ RTGSEntryQuery::RTGSEntryQuery(QWidget *parent) :
     QString styleSheet = "QHeaderView::section { background-color: #f5f5f5; font-weight: bold; }";
     // 将样式表应用于表格的表头
     ui->tableWidget_2->horizontalHeader()->setStyleSheet(styleSheet);
-
+    //初始化勾选
+    selectedRows.resize(totalRows);
+    for (int row = 0; row < totalRows; ++row) {
+        selectedRows[row] = 0;
+    }
     updateTableDisplay();
 //    qDebug() << totalRows;
-    boolArray.resize(totalRows);
-    for (int i = 0; i < totalRows; ++i)
-    {
-        boolArray[i] = false; // 默认赋值为 false
-    }
     // 隐藏左侧的行号框
     ui->tableWidget_2->verticalHeader()->setVisible(false);
     connect(ui->pushButton_9, &QPushButton::clicked, this, &RTGSEntryQuery::previousPageButton_clicked);
@@ -67,40 +66,6 @@ RTGSEntryQuery::RTGSEntryQuery(QWidget *parent) :
 RTGSEntryQuery::~RTGSEntryQuery()
 {
     delete ui;
-}
-
-void RTGSEntryQuery::selectRows()
-{
-    for (int var = 0; var < pageSize; var++) {
-        int row = var + (currentPage * pageSize); // 计算当前页面的实际行索引
-        if (row < totalRows) {
-            QCheckBox* checkBox = qobject_cast<QCheckBox*>(ui->tableWidget_2->cellWidget(var, 0));
-            if (checkBox) {
-                int rowIndex = var + (currentPage * pageSize);
-                boolArray[row] = checkBox->isChecked();
-                checkboxStateMap[rowIndex] = checkBox->isChecked();
-            }
-        }
-    }
-}
-
-void RTGSEntryQuery::checkbox_toggled(bool checked)
-{
-    for (int pageIndex = 0; pageIndex < totalPages; ++pageIndex) {
-        for (int rowIndex = 0; rowIndex < pageSize; ++rowIndex) {
-            int row = rowIndex + (pageIndex * pageSize); // 计算当前页的实际行索引
-            if (row < totalRows) {
-                QCheckBox* checkBox = qobject_cast<QCheckBox*>(ui->tableWidget_2->cellWidget(rowIndex, 0));
-                if (checkBox) {
-                    // 仅当复选框的状态与全选复选框的状态不同时，才更新复选框的状态
-                    if (checkBox->isChecked() != checked) {
-                        checkBox->setChecked(checked);
-                    }
-                    checkboxStateMap[row] = checked;
-                }
-            }
-        }
-    }
 }
 
 void RTGSEntryQuery::updateTableDisplay()
@@ -118,8 +83,10 @@ void RTGSEntryQuery::updateTableDisplay()
         QMessageBox::critical(nullptr, "错误", "无法打开数据库：" + database.lastError().text());
         return;
     }
+
     ui->tableWidget_2->clearContents(); // 清空表格内容
     ui->tableWidget_2->setRowCount(numRows);
+
     // 执行查询
     QSqlQuery query;
     query.prepare("SELECT * FROM entering LIMIT :startRow, :numRows");
@@ -130,15 +97,14 @@ void RTGSEntryQuery::updateTableDisplay()
 
         while (query.next()) {
             QCheckBox *checkBox = new QCheckBox();
-            QHBoxLayout *layoutCheckBox = new QHBoxLayout();
-            QWidget *widget = new QWidget(ui->tableWidget_2);
-            layoutCheckBox->addWidget(checkBox);
-            layoutCheckBox->setMargin(0);
-            layoutCheckBox->setAlignment(checkBox, Qt::AlignCenter);
-            widget->setLayout(layoutCheckBox);
-            ui->tableWidget_2->setCellWidget(rowIndex, 0, widget);
+            if(selectedRows[startRow + rowIndex] == 1) {
+                checkBox->setChecked(true);
+            } else {
+                checkBox->setChecked(false);
+            }
+            ui->tableWidget_2->setCellWidget(rowIndex, 0, checkBox);
             connect(checkBox, &QCheckBox::clicked, this, &RTGSEntryQuery::selectRows);
-            connect(ui->checkBox, &QCheckBox::toggled, this, &RTGSEntryQuery::checkbox_toggled);
+            connect(ui->checkBox, &QCheckBox::clicked, this, &RTGSEntryQuery::AllCheckbox);
             QTableWidgetItem *item1 = new QTableWidgetItem(query.value(1).toString());
             QTableWidgetItem *item2 = new QTableWidgetItem(query.value(2).toString());
             QTableWidgetItem *item3 = new QTableWidgetItem(query.value(3).toString());
@@ -170,47 +136,67 @@ void RTGSEntryQuery::updateTableDisplay()
             item6->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
             item7->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
             item8->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-
-            // 根据checkboxStateMap设置勾选状态
-            if(currentPage + 1 != totalPages) {
-                int actualRowIndex = startRow + pageSize;
-                if (checkboxStateMap.contains(actualRowIndex) && checkboxStateMap[actualRowIndex]) {
-                    checkBox->setChecked(true);
-                } else {
-                    checkBox->setChecked(false);
-                }
-            } else {
-                int actualRowIndex = startRow + rowIndex;
-                if (checkboxStateMap.contains(actualRowIndex) && checkboxStateMap[actualRowIndex]) {
-                    checkBox->setChecked(true);
-                } else {
-                    checkBox->setChecked(false);
-                }
-            }
-
-            ++rowIndex;
+            rowIndex++;
         }
+
         // 删除空行
         removeEmptyRows(ui->tableWidget_2);
     } else {
-        QMessageBox::critical(nullptr, "错误", "查询执行失败：" + query.lastError().text());
-        return;
+        QMessageBox::critical(nullptr, "错误", "查询失败：" + query.lastError().text());
     }
 
     // 关闭数据库连接
     database.close();
-    QString text1 = "当前页记录数:";
-    QString text2 = "当前页码:";
-    QString text3 = "共计:";
-    QString styledText1 = "<font color='black'>" + text1 + "</font>" + "<font color='red'>" + QString::number(numRows) + "</font>";
-    QString styledText2 = "<font color='black'>" + text2 + "</font>" + "<font color='red'>" + QString::number(currentPage + 1) + "</font>" + "<font color='black'>" + "/" + "</font>" + "<font color='red'>" + QString::number(totalPages) + "</font>";
-    QString styledText3 = "<font color='black'>" + text3 + "</font>" + "<font color='red'>" + QString::number(totalRows) + "</font>" + "<font color='black'>" + "条记录" + "</font>";
-
-    ui->textEdit_2->setHtml(styledText1);
-    ui->textEdit_3->setHtml(styledText2);
-    ui->textEdit_6->setHtml(styledText3);
 }
 
+void RTGSEntryQuery::removeEmptyRows(QTableWidget *tableWidget)
+{
+    for (int row = tableWidget->rowCount() - 1; row >= 0; --row) {
+        bool isEmpty = true;
+        for (int col = 0; col < tableWidget->columnCount(); ++col) {
+            QTableWidgetItem *item = tableWidget->item(row, col);
+            if (item && !item->text().isEmpty()) {
+                isEmpty = false;
+                break;
+            }
+        }
+        if (isEmpty) {
+            tableWidget->removeRow(row);
+        }
+    }
+}
+
+void RTGSEntryQuery::selectRows()
+{
+    for (int row = 0; row < ui->tableWidget_2->rowCount(); ++row) {
+        int rowIndex = currentPage * pageSize + row; // 计算行索引
+        QCheckBox *checkBox = qobject_cast<QCheckBox *>(ui->tableWidget_2->cellWidget(row, 0));
+        if (checkBox->isChecked()) {
+            selectedRows[rowIndex] = 1;
+        } else {
+            selectedRows[rowIndex] = 0;
+        }
+    }
+}
+
+void RTGSEntryQuery::AllCheckbox(bool checked)
+{
+    QCheckBox *checkBox;
+    int startRow = currentPage * pageSize; // 当前页的起始行
+    int endRow = qMin(startRow + pageSize, totalRows); // 当前页的结束行
+    int numRows = endRow - startRow; // 当前页的行数
+    for (int row = 0; row < totalRows; ++row) {
+        if(row < numRows) {
+            checkBox = qobject_cast<QCheckBox *>(ui->tableWidget_2->cellWidget(row, 0));
+        }
+        if(checked) {
+            selectedRows[row] = 1;
+        } else {
+            selectedRows[row] = 0;
+        }
+        checkBox->setChecked(checked);
+    }
+}
 
 void RTGSEntryQuery::previousPageButton_clicked()
 {
@@ -225,23 +211,6 @@ void RTGSEntryQuery::nextPageButton_clicked()
     if (currentPage < totalPages - 1) {
         currentPage++;
         updateTableDisplay();
-    }
-}
-
-void RTGSEntryQuery::removeEmptyRows(QTableWidget *tableWidget) {
-    for (int row = tableWidget->rowCount() - 1; row >= 0; --row) {
-        bool isEmptyRow = true;
-        for (int column = 0; column < tableWidget->columnCount(); ++column) {
-            QTableWidgetItem *item = tableWidget->item(row, column);
-            if (item && !item->text().isEmpty()) {
-                isEmptyRow = false;
-                break;
-            }
-        }
-        if (isEmptyRow) {
-            tableWidget->removeRow(row);
-            //            totalRows--;
-        }
     }
 }
 
@@ -335,7 +304,7 @@ void RTGSEntryQuery::siftToData() {
                 widget->setLayout(layoutCheckBox);
                 ui->tableWidget_2->setCellWidget(rowIndex, 0, widget);
                 connect(checkBox, &QCheckBox::clicked, this, &RTGSEntryQuery::selectRows);
-                connect(ui->checkBox, &QCheckBox::toggled, this, &RTGSEntryQuery::checkbox_toggled);
+                connect(ui->checkBox, &QCheckBox::toggled, this, &RTGSEntryQuery::AllCheckbox);
                 QTableWidgetItem *item1 = new QTableWidgetItem(query.value(1).toString());
                 QTableWidgetItem *item2 = new QTableWidgetItem(query.value(2).toString());
                 QTableWidgetItem *item3 = new QTableWidgetItem(query.value(3).toString());
@@ -368,22 +337,6 @@ void RTGSEntryQuery::siftToData() {
                 item7->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
                 item8->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 
-                // 根据checkboxStateMap设置勾选状态
-                if(currentPage + 1 != totalPages) {
-                    int actualRowIndex = startRow + pageSize;
-                    if (checkboxStateMap.contains(actualRowIndex) && checkboxStateMap[actualRowIndex]) {
-                        checkBox->setChecked(true);
-                    } else {
-                        checkBox->setChecked(false);
-                    }
-                } else {
-                    int actualRowIndex = startRow + rowIndex;
-                    if (checkboxStateMap.contains(actualRowIndex) && checkboxStateMap[actualRowIndex]) {
-                        checkBox->setChecked(true);
-                    } else {
-                        checkBox->setChecked(false);
-                    }
-                }
                 ++rowIndex;
             }
             // 删除空行
