@@ -405,6 +405,7 @@ void dashboard::onTreeWidgetItemClicked(QTreeWidgetItem* item, int column) {
         ui->pushButton_7->setText("/" + rootNodeText + "/" + text);
         fundbalancequery = new FundBalanceQuery(this);
         QWidget *fundbalancequerywidget_4 = fundbalancequery->ui->widget_4;
+        ui->widget_2->setFixedHeight(920);
         ui->stackedWidget_2->addWidget(fundbalancequerywidget_4);
         ui->stackedWidget_2->setCurrentWidget(fundbalancequerywidget_4);
         setIsShowBread(true);
@@ -414,6 +415,7 @@ void dashboard::onTreeWidgetItemClicked(QTreeWidgetItem* item, int column) {
         ui->pushButton_7->setText("/" + rootNodeText + "/" + text);
         RTGSentryquery = new RTGSEntryQuery(this);
         QWidget *RTGSentryquerywidget_4 = RTGSentryquery->ui->widget_4;
+        ui->widget_2->setFixedHeight(920);
         ui->stackedWidget_2->addWidget(RTGSentryquerywidget_4);
         ui->stackedWidget_2->setCurrentWidget(RTGSentryquerywidget_4);
         setIsShowBread(true);
@@ -423,6 +425,7 @@ void dashboard::onTreeWidgetItemClicked(QTreeWidgetItem* item, int column) {
         ui->pushButton_7->setText("/" + rootNodeText + "/" + text);
         maximumamountregulardeclaration = new MaximumAmountRegularDeclaration(this);
         QWidget *maximumamountregulardeclarationwidget_4 = maximumamountregulardeclaration->ui->widget_4;
+        ui->widget_2->setFixedHeight(920);
         ui->stackedWidget_2->addWidget(maximumamountregulardeclarationwidget_4);
         ui->stackedWidget_2->setCurrentWidget(maximumamountregulardeclarationwidget_4);
         setIsShowBread(true);
@@ -453,6 +456,7 @@ void dashboard::reDashboard() {
     ui->pushButton_7->setVisible(false);
     ui->pushButton_9->setVisible(false);
     QWidget* dashboardwidget_9 = findChild<QWidget*>("widget_9");
+    ui->widget_2->setFixedHeight(860);
     ui->stackedWidget_2->addWidget(dashboardwidget_9);
     ui->stackedWidget_2->setCurrentWidget(dashboardwidget_9);
     setIsShowBread(false);
