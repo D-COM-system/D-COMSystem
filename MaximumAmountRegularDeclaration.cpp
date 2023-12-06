@@ -105,7 +105,7 @@ void MaximumAmountRegularDeclaration::updateTableDisplay()
     ui->tableWidget_2->setRowCount(numRows);
     // 执行查询
     QSqlQuery query;
-    query.prepare("SELECT * FROM record ORDER BY inputTime DESC LIMIT :startRow, :numRows");
+    query.prepare("SELECT * FROM (SELECT * FROM record ORDER BY inputTime DESC, rowid DESC) AS subquery LIMIT :startRow, :numRows");
     query.bindValue(":startRow", startRow);
     query.bindValue(":numRows", numRows);
     if (query.exec()) {

@@ -1,6 +1,9 @@
  #include "RTGSEntryQuery.h"
 #include "ui_RTGSEntryQuery.h"
 
+//是否重置tableWidget的标志
+int flag = 1;
+
 RTGSEntryQuery::RTGSEntryQuery(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::RTGSEntryQuery)
@@ -70,9 +73,12 @@ RTGSEntryQuery::~RTGSEntryQuery()
 
 void RTGSEntryQuery::updateTableDisplay()
 {
-    int startRow = currentPage * pageSize; // 当前页的起始行
-    int endRow = qMin(startRow + pageSize, totalRows); // 当前页的结束行
-    int numRows = endRow - startRow; // 当前页的行数
+    int judgeAccount = 0;
+    int judgeSecurities_account = 0;
+    int judgeCode = 0;
+    QString securities_account = ui->lineEdit_7->text();
+    QString account = ui->lineEdit_8->text();
+    QString code = ui->lineEdit_9->text();
 
     QString dbName = "database.db";
     QString dbPath = QCoreApplication::applicationDirPath() + "./" + dbName;  // Use a relative path
@@ -84,25 +90,115 @@ void RTGSEntryQuery::updateTableDisplay()
         return;
     }
 
-    ui->tableWidget_2->clearContents(); // 清空表格内容
-    ui->tableWidget_2->setRowCount(numRows);
-
     // 执行查询
     QSqlQuery query;
-    query.prepare("SELECT * FROM entering LIMIT :startRow, :numRows");
+    //flag为1，开始重置
+    if(flag == 1) {
+        //计算行数
+        QString queryCountString = "SELECT COUNT(*) FROM entering WHERE 1=1";
+        if (account != NULL) {
+            queryCountString += " AND account = :account";
+            judgeAccount = 1;
+        }
+
+        if (securities_account != NULL) {
+            queryCountString += " AND securities_account = :securities_account";
+            judgeSecurities_account = 1;
+        }
+
+        if (code != NULL) {
+            queryCountString += " AND code = :code";
+            judgeCode = 1;
+        }
+
+        query.prepare(queryCountString);
+        if(judgeAccount) {
+            query.bindValue(":account", account);
+        }
+        if(judgeSecurities_account) {
+            query.bindValue(":securities_account", securities_account);
+        }
+        if(judgeCode) {
+            query.bindValue(":code", code);
+        }
+        if (query.exec()) {
+            if (query.next()) {
+                totalRows = query.value(0).toInt();
+            }
+            // 删除空行
+        } else {
+            QMessageBox::critical(nullptr, "错误", "查询执行失败：" + query.lastError().text());
+            return;
+        }
+        selectedRows.resize(totalRows);
+        for (int row = 0; row < totalRows; ++row) {
+            selectedRows[row] = 0;
+        }
+        currentPage = 0,
+        pageSize = 50,
+        totalPages = ((totalRows + pageSize - 1) / pageSize);
+        flag = 0;
+    }
+    int startRow = currentPage * pageSize; // 当前页的起始行
+    int endRow = qMin(startRow + pageSize, totalRows); // 当前页的结束行
+    int numRows = endRow - startRow; // 当前页的行数
+    ui->tableWidget_2->clearContents(); // 清空表格内容
+    ui->tableWidget_2->setRowCount(numRows);
+    // 执行查询
+    QString queryString = "SELECT * FROM entering WHERE 1=1";
+    if (account != NULL) {
+        queryString += " AND account = :account";
+        judgeAccount = 1;
+    }
+
+    if (securities_account != NULL) {
+        queryString += " AND securities_account = :securities_account";
+        judgeSecurities_account = 1;
+    }
+
+    if (code != NULL) {
+        queryString += " AND code = :code";
+        judgeCode = 1;
+    }
+
+    queryString += " LIMIT :startRow, :numRows";
+    query.prepare(queryString);
+    if(judgeAccount) {
+        query.bindValue(":account", account);
+    }
+    if(judgeSecurities_account) {
+        query.bindValue(":securities_account", securities_account);
+    }
+    if(judgeCode) {
+        query.bindValue(":code", code);
+    }
+//    query.prepare("SELECT * FROM entering LIMIT :startRow, :numRows");
     query.bindValue(":startRow", startRow);
     query.bindValue(":numRows", numRows);
     if (query.exec()) {
         int rowIndex = 0; // 当前页内的行索引
 
         while (query.next()) {
+            // 创建水平布局
+            QHBoxLayout* layout = new QHBoxLayout();
+            layout->setContentsMargins(0, 0, 0, 0);
+            layout->setAlignment(Qt::AlignCenter); // 设置布局居中对齐
+            // 创建勾选框和标签
             QCheckBox *checkBox = new QCheckBox();
+
+            // 将勾选框和标签添加到布局
+            layout->addWidget(checkBox);
+
+            // 设置布局为单元格的小部件
+            QWidget* widget = new QWidget();
+            widget->setLayout(layout);
+            ui->tableWidget_2->setCellWidget(rowIndex, 0, widget);
             if(selectedRows[startRow + rowIndex] == 1) {
                 checkBox->setChecked(true);
             } else {
                 checkBox->setChecked(false);
             }
-            ui->tableWidget_2->setCellWidget(rowIndex, 0, checkBox);
+
             connect(checkBox, &QCheckBox::clicked, this, &RTGSEntryQuery::selectRows);
             connect(ui->checkBox, &QCheckBox::clicked, this, &RTGSEntryQuery::AllCheckbox);
             QTableWidgetItem *item1 = new QTableWidgetItem(query.value(1).toString());
@@ -147,6 +243,16 @@ void RTGSEntryQuery::updateTableDisplay()
 
     // 关闭数据库连接
     database.close();
+    QString text1 = "当前页记录数:";
+    QString text2 = "当前页码:";
+    QString text3 = "共计:";
+    QString styledText1 = "<font color='black'>" + text1 + "</font>" + "<font color='red'>" + QString::number(numRows) + "</font>";
+    QString styledText2 = "<font color='black'>" + text2 + "</font>" + "<font color='red'>" + QString::number(currentPage + 1) + "</font>" + "<font color='black'>" + "/" + "</font>" + "<font color='red'>" + QString::number(totalPages) + "</font>";
+    QString styledText3 = "<font color='black'>" + text3 + "</font>" + "<font color='red'>" + QString::number(totalRows) + "</font>" + "<font color='black'>" + "条记录" + "</font>";
+
+    ui->textEdit_2->setHtml(styledText1);
+    ui->textEdit_3->setHtml(styledText2);
+    ui->textEdit_6->setHtml(styledText3);
 }
 
 void RTGSEntryQuery::removeEmptyRows(QTableWidget *tableWidget)
@@ -170,11 +276,14 @@ void RTGSEntryQuery::selectRows()
 {
     for (int row = 0; row < ui->tableWidget_2->rowCount(); ++row) {
         int rowIndex = currentPage * pageSize + row; // 计算行索引
-        QCheckBox *checkBox = qobject_cast<QCheckBox *>(ui->tableWidget_2->cellWidget(row, 0));
-        if (checkBox->isChecked()) {
-            selectedRows[rowIndex] = 1;
-        } else {
-            selectedRows[rowIndex] = 0;
+        QWidget* cellWidget = ui->tableWidget_2->cellWidget(row, 0);
+        if (cellWidget) {
+            QCheckBox *checkBox = cellWidget->findChild<QCheckBox *>();
+            if (checkBox && checkBox->isChecked()) {
+                selectedRows[rowIndex] = 1;
+            } else {
+                selectedRows[rowIndex] = 0;
+            }
         }
     }
 }
@@ -186,8 +295,9 @@ void RTGSEntryQuery::AllCheckbox(bool checked)
     int endRow = qMin(startRow + pageSize, totalRows); // 当前页的结束行
     int numRows = endRow - startRow; // 当前页的行数
     for (int row = 0; row < totalRows; ++row) {
+        QWidget* cellWidget = ui->tableWidget_2->cellWidget(row, 0);
         if(row < numRows) {
-            checkBox = qobject_cast<QCheckBox *>(ui->tableWidget_2->cellWidget(row, 0));
+            checkBox = cellWidget->findChild<QCheckBox *>();
         }
         if(checked) {
             selectedRows[row] = 1;
@@ -215,153 +325,7 @@ void RTGSEntryQuery::nextPageButton_clicked()
 }
 
 void RTGSEntryQuery::siftToData() {
-
-    QString securities_account = ui->lineEdit_7->text();
-    QString account = ui->lineEdit_8->text();
-    QString code = ui->lineEdit_9->text();
-    if(securities_account != NULL || account != NULL || code != NULL) {
-        QString dbName = "database.db";
-        QString dbPath = QCoreApplication::applicationDirPath() + "./" + dbName;  // Use a relative path
-        QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");
-        database.setDatabaseName(dbPath);
-
-        if (!database.open()) {
-            QMessageBox::critical(nullptr, "错误", "无法打开数据库：" + database.lastError().text());
-            return;
-        }
-
-        QSqlQuery query;
-        query.prepare("SELECT COUNT(*) FROM entering");
-        if (query.exec()) {
-            if (query.next()) {
-                totalRows = query.value(0).toInt();
-            }
-            // 删除空行
-        } else {
-            QMessageBox::critical(nullptr, "错误", "查询执行失败：" + query.lastError().text());
-            return;
-        }
-        currentPage = 0,
-        pageSize = 50,
-        totalPages = ((totalRows + pageSize - 1) / pageSize);
-        int startRow = 0 * pageSize; // 当前页的起始行
-        int endRow = qMin(startRow + pageSize, totalRows); // 当前页的结束行
-        int numRows = endRow - startRow; // 当前页的行数
-        int judgeAccount = 0;
-        int judgeSecurities_account = 0;
-        int judgeCode = 0;
-
-        ui->tableWidget_2->clearContents(); // 清空表格内容
-        ui->tableWidget_2->setRowCount(numRows);
-        // 执行查询
-//        query.prepare("SELECT * FROM entering WHERE account = :account AND securities_account = :securities_account AND code = :code LIMIT :startRow, :numRows");
-//        query.bindValue(":account", account);
-//        query.bindValue(":securities_account", securities_account);
-//        query.bindValue(":code", code);
-//        query.bindValue(":startRow", startRow);
-//        query.bindValue(":numRows", numRows);
-        QString queryString = "SELECT * FROM entering WHERE 1=1";
-        if (account != NULL) {
-            queryString += " AND account = :account";
-            judgeAccount = 1;
-        }
-
-        if (securities_account != NULL) {
-            queryString += " AND securities_account = :securities_account";
-            judgeSecurities_account = 1;
-        }
-
-        if (code != NULL) {
-            queryString += " AND code = :code";
-            judgeCode = 1;
-        }
-
-        queryString += " LIMIT :startRow, :numRows";
-        query.prepare(queryString);
-        if(judgeAccount) {
-            query.bindValue(":account", account);
-        }
-        if(judgeSecurities_account) {
-            query.bindValue(":securities_account", securities_account);
-        }
-        if(judgeCode) {
-            query.bindValue(":code", code);
-        }
-        query.bindValue(":startRow", startRow);
-        query.bindValue(":numRows", numRows);
-        qDebug() << queryString;
-
-        if (query.exec()) {
-            int rowIndex = 0; // 当前页内的行索引
-
-            while (query.next()) {
-                QCheckBox *checkBox = new QCheckBox();
-                QHBoxLayout *layoutCheckBox = new QHBoxLayout();
-                QWidget *widget = new QWidget(ui->tableWidget_2);
-                layoutCheckBox->addWidget(checkBox);
-                layoutCheckBox->setMargin(0);
-                layoutCheckBox->setAlignment(checkBox, Qt::AlignCenter);
-                widget->setLayout(layoutCheckBox);
-                ui->tableWidget_2->setCellWidget(rowIndex, 0, widget);
-                connect(checkBox, &QCheckBox::clicked, this, &RTGSEntryQuery::selectRows);
-                connect(ui->checkBox, &QCheckBox::toggled, this, &RTGSEntryQuery::AllCheckbox);
-                QTableWidgetItem *item1 = new QTableWidgetItem(query.value(1).toString());
-                QTableWidgetItem *item2 = new QTableWidgetItem(query.value(2).toString());
-                QTableWidgetItem *item3 = new QTableWidgetItem(query.value(3).toString());
-                QTableWidgetItem *item4 = new QTableWidgetItem(query.value(4).toString());
-                QTableWidgetItem *item5 = new QTableWidgetItem(query.value(5).toString());
-                QTableWidgetItem *item6 = new QTableWidgetItem(query.value(6).toString());
-                QTableWidgetItem *item7 = new QTableWidgetItem(query.value(7).toString());
-                QTableWidgetItem *item8 = new QTableWidgetItem(query.value(8).toString());
-                QTableWidgetItem *emptyItem1 = new QTableWidgetItem("");
-                QTableWidgetItem *emptyItem2 = new QTableWidgetItem("");
-
-                ui->tableWidget_2->setItem(rowIndex, 1, emptyItem1);
-                ui->tableWidget_2->setItem(rowIndex, 2, item1);
-                ui->tableWidget_2->setItem(rowIndex, 3, item2);
-                ui->tableWidget_2->setItem(rowIndex, 4, emptyItem2);
-                ui->tableWidget_2->setItem(rowIndex, 5, item3);
-                ui->tableWidget_2->setItem(rowIndex, 6, item4);
-                ui->tableWidget_2->setItem(rowIndex, 7, item5);
-                ui->tableWidget_2->setItem(rowIndex, 8, item6);
-                ui->tableWidget_2->setItem(rowIndex, 9, item7);
-                ui->tableWidget_2->setItem(rowIndex, 10, item8);
-                emptyItem1->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-                item1->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-                item2->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-                emptyItem2->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-                item3->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-                item4->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-                item5->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-                item6->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-                item7->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-                item8->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-
-                ++rowIndex;
-            }
-            // 删除空行
-            removeEmptyRows(ui->tableWidget_2);
-            QString text1 = "当前页记录数:";
-            QString text2 = "当前页码:";
-            QString text3 = "共计:";
-            QString styledText1 = "<font color='black'>" + text1 + "</font>" + "<font color='red'>" + QString::number(numRows) + "</font>";
-            QString styledText2 = "<font color='black'>" + text2 + "</font>" + "<font color='red'>" + QString::number(currentPage + 1) + "</font>" + "<font color='black'>" + "/" + "</font>" + "<font color='red'>" + QString::number(totalPages) + "</font>";
-            QString styledText3 = "<font color='black'>" + text3 + "</font>" + "<font color='red'>" + QString::number(totalRows) + "</font>" + "<font color='black'>" + "条记录" + "</font>";
-
-            ui->textEdit_2->setHtml(styledText1);
-            ui->textEdit_3->setHtml(styledText2);
-            ui->textEdit_6->setHtml(styledText3);
-        } else {
-            QMessageBox::critical(nullptr, "错误", "查询执行失败：" + query.lastError().text());
-            return;
-        }
-
-        // 关闭数据库连接
-        database.close();
-    } else {
-        currentPage = 0,
-        pageSize = 50,
-        totalPages = ((totalRows + pageSize - 1) / pageSize);
-        updateTableDisplay();
-    }
+    //发送重置标志
+    flag = 1;
+    updateTableDisplay();
 }

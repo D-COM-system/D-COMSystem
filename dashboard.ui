@@ -13,6 +13,12 @@
     <height>1000</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>1920</width>
+    <height>1000</height>
+   </size>
+  </property>
   <property name="tabletTracking">
    <bool>false</bool>
   </property>
@@ -1682,6 +1688,9 @@ text-align: left;</string>
            <width>251</width>
            <height>1001</height>
           </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(46, 137, 189);</string>
          </property>
         </widget>
         <widget class="QPushButton" name="pushButton_8">

@@ -15,6 +15,7 @@ CONFIG += c++17
 SOURCES += \
     FundBalanceQuery.cpp \
     ImportOfDeclarations.cpp \
+    MaskForm.cpp \
     MaximumAmountRegularDeclaration.cpp \
     RTGSEntryQuery.cpp \
     balance.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
 HEADERS += \
     FundBalanceQuery.h \
     ImportOfDeclarations.h \
+    MaskForm.h \
     MaximumAmountRegularDeclaration.h \
     RTGSEntryQuery.h \
     dashboard.h \

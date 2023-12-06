@@ -28,7 +28,6 @@ FundBalanceQuery::FundBalanceQuery(QWidget *parent) :
 
     ui->comboBox->setStyleSheet(comboBoxStyle);
     connect(ui->pushButton_5, &QPushButton::clicked, this, &FundBalanceQuery::siftToData);
-
 }
 
 FundBalanceQuery::~FundBalanceQuery()
@@ -53,11 +52,11 @@ void FundBalanceQuery::comboBoxAddItem() {
     QSqlQuery query;
     query.prepare("SELECT account FROM balance");
     if (query.exec()) {
+        ui->comboBox->addItem("请选择");
         while (query.next()) {
             QString account = query.value(0).toString();
             ui->comboBox->addItem(account);
         }
-        ui->comboBox->setEditText("请选择");
         ui->comboBox->setStyleSheet("QComboBox QAbstractItemView { background-color: yellow; color: blue; }");
     } else {
         QMessageBox::critical(nullptr, "错误", "查询执行失败：" + query.lastError().text());

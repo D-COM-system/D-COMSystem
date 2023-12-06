@@ -3,6 +3,7 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QMessageBox>
+#include <QDateTime>
 #include "xlsxdocument.h"
 
 void createRecord(QString excelFilePath, QString dirPath)
@@ -42,12 +43,16 @@ void createRecord(QString excelFilePath, QString dirPath)
         QString MaxAccount = sheet->read(row, 6).toString();
         QString ControlClass = sheet->read(row, 7).toString();
         QString dataEntryClerk = sheet->read(row, 8).toString();
-        QString inputTime = sheet->read(row, 9).toString();
+        // 获取当前时间
+        QDateTime currentTime = QDateTime::currentDateTime();
+        // 格式化时间为"YYYY-MM-DD HH:MM:SS"的字符串
+        QString formattedTime = currentTime.toString("yyyy-MM-dd hh:mm:ss");
+        // 设置当前时间
+        QString inputTime = formattedTime;
 
         // 检查所有元素是否都为空
         if (guid.isEmpty() && state.isEmpty() && institutionCode.isEmpty() && institutionName.isEmpty() &&
-            TotalAssets.isEmpty() && MaxAccount.isEmpty() && ControlClass.isEmpty() && dataEntryClerk.isEmpty() &&
-            inputTime.isEmpty()) {
+            TotalAssets.isEmpty() && MaxAccount.isEmpty() && ControlClass.isEmpty() && dataEntryClerk.isEmpty()) {
             continue;  // 跳过当前行，不执行插入操作
         }
 

@@ -1011,9 +1011,9 @@ width: 150px;</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>620</x>
+        <x>630</x>
         <y>140</y>
-        <width>171</width>
+        <width>291</width>
         <height>31</height>
        </rect>
       </property>
@@ -1207,7 +1207,11 @@ color:black;
 font-size:20px;</string>
        </property>
        <property name="text">
-        <string>X</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="res.qrc">
+         <normaloff>:/Image/login_close.png</normaloff>:/Image/login_close.png</iconset>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_9">

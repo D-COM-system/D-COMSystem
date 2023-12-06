@@ -1,4 +1,5 @@
 #include "ImportOfDeclarations.h"
+#include "MaskForm.h"
 #include "ui_ImportOfDeclarations.h"
 #include "xlsxdocument.h"
 #include "xlsxworksheet.h"
@@ -71,15 +72,15 @@ void ImportOfDeclarations::importFile()
 {
     int successInsert = 0;
     //判断文件是否符合导入需求
-    if(!judgeFile()) {
-        ui->lineEdit_6->clear();
-        ui->lineEdit_9->setText("本次共导入" + QString::number(successInsert) + "条数据");
-                                               ui->widget_5->setVisible(true);
-        return ;
-    }
     if(ui->lineEdit_6->text().isEmpty()) {
         return ;
     }
+//    if(!judgeFile()) {
+//        ui->lineEdit_6->clear();
+//        ui->lineEdit_9->setText("本次共导入" + QString::number(successInsert) + "条数据");
+//        ui->widget_5->setVisible(true);
+//        return ;
+//    }
     QString dbName = "database.db";
     QString dbPath = QCoreApplication::applicationDirPath() + "./" + dbName;  // Use a relative path
 
@@ -100,7 +101,8 @@ void ImportOfDeclarations::importFile()
     QSqlQuery query;
     // Assuming the data starts from row 2 (skip header row)
     for (int row = 2; row <= sheet->dimension().lastRow(); ++row) {
-        QString guid = sheet->read(row, 1).toString();
+//        QString guid = sheet->read(row, 1).toString();
+        QString guid = nullptr;
         QString state = sheet->read(row, 2).toString();
         QString institutionCode = sheet->read(row, 3).toString();
         QString institutionName = sheet->read(row, 4).toString();
@@ -114,10 +116,14 @@ void ImportOfDeclarations::importFile()
         QString inputTime = currentTime.toString("yyyy-MM-dd hh:mm:ss");
 
         // 检查所有元素是否都为空
-        if (guid.isEmpty() && state.isEmpty() && institutionCode.isEmpty() && institutionName.isEmpty() &&
-            TotalAssets.isEmpty() && MaxAccount.isEmpty() && ControlClass.isEmpty() && dataEntryClerk.isEmpty()) {
+        if (state.isEmpty() || institutionCode.isEmpty() || institutionName.isEmpty() ||
+            TotalAssets.isEmpty() || MaxAccount.isEmpty() || ControlClass.isEmpty() || dataEntryClerk.isEmpty()) {
             continue;  // 跳过当前行，不执行插入操作
         }
+//        if (state.isEmpty() && institutionCode.isEmpty() && institutionName.isEmpty() &&
+//            TotalAssets.isEmpty() && MaxAccount.isEmpty() && ControlClass.isEmpty() && dataEntryClerk.isEmpty()) {
+//            continue; // 跳过当前行，不执行插入操作
+//        }
 
         QString insertQuery = "INSERT INTO record (guid, state, institutionCode, institutionName, TotalAssets, MaxAccount, ControlClass, dataEntryClerk, inputTime) "
                               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -132,11 +138,11 @@ void ImportOfDeclarations::importFile()
         query.addBindValue(dataEntryClerk);
         query.addBindValue(inputTime);
 
-            if (!query.exec()) {
-                qDebug() << "插入数据失败：" << query.lastError().text();
-            } else {
-                successInsert++;
-            }
+        if (!query.exec()) {
+            qDebug() << "插入数据失败：" << query.lastError().text();
+        } else {
+            successInsert++;
+        }
     }
     // Close the database connection
     db.close();
@@ -144,6 +150,7 @@ void ImportOfDeclarations::importFile()
     ui->lineEdit_6->clear();
     ui->lineEdit_9->setText("本次共导入" + QString::number(successInsert) + "条数据");
     ui->widget_5->setVisible(true);
+//    ui->widget_5->setVisible(true);
 }
 
 void ImportOfDeclarations::resetText() {
